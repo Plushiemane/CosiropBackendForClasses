@@ -1,0 +1,149 @@
+{
+  "CosirobCommands": {
+    "sp": {
+      "syntax": "<channel> SP <speed>",
+      "description": "Set robot speed (1–100% of maximum speed)",
+      "example": "10 SP 50"
+    },
+    "ac": {
+      "syntax": "<channel> AC <acceleration>",
+      "description": "Set acceleration (1–100% of maximum acceleration)",
+      "example": "10 AC 20"
+    },
+    "mo": {
+      "syntax": "<channel> MO <position_id>",
+      "description": "Move to a stored position number (1-99)",
+      "example": "20 MO 1"
+    },
+    "mv": {
+      "syntax": "<channel> MV <x> <y> <z> <rx> <ry> <rz>",
+      "description": "Move to absolute Cartesian coordinates (mm) and orientation (degrees)",
+      "example": "20 MV 100.0 0.0 150.0 0.0 90.0 0.0"
+    },
+    "ip": {
+      "syntax": "<channel> IP <dx> <dy> <dz> <drx> <dry> <drz>",
+      "description": "Increment position - move relative to current position (mm and degrees)",
+      "example": "20 IP 10.0 0.0 -5.0 0.0 0.0 15.0"
+    },
+    "mj": {
+      "syntax": "<channel> MJ <j1> <j2> <j3> <j4> <j5> <j6>",
+      "description": "Move to absolute joint angles in degrees",
+      "example": "20 MJ 0.0 45.0 30.0 0.0 0.0 0.0"
+    },
+    "pd": {
+      "syntax": "<channel> PD <x> <y> <z> <rx> <ry> <rz>",
+      "description": "Point-to-point move with position and orientation",
+      "example": "20 PD 100.0 50.0 200.0 0.0 0.0 90.0"
+    },
+    "or": {
+      "syntax": "<channel> OR",
+      "description": "Return robot to origin/home position",
+      "example": "10 OR"
+    },
+    "ho": {
+      "syntax": "<channel> HO",
+      "description": "Home all robot axes to reference position",
+      "example": "00 HO"
+    },
+    "st": {
+      "syntax": "<channel> ST",
+      "description": "Emergency stop - halt all motion immediately",
+      "example": "00 ST"
+    },
+    "pa": {
+      "syntax": "<channel> PA",
+      "description": "Pause current motion execution",
+      "example": "00 PA"
+    },
+    "co": {
+      "syntax": "<channel> CO",
+      "description": "Continue/resume paused motion",
+      "example": "00 CO"
+    },
+    "rs": {
+      "syntax": "<channel> RS",
+      "description": "Reset system after error or stop",
+      "example": "00 RS"
+    },
+    "wp": {
+      "syntax": "<channel> WP <position_id>",
+      "description": "Write/save current position to memory slot (1-99)",
+      "example": "50 WP 3"
+    },
+    "rd": {
+      "syntax": "<channel> RD <position_id>",
+      "description": "Read position data from memory slot",
+      "example": "50 RD 3"
+    },
+    "wh": {
+      "syntax": "<channel> WH",
+      "description": "Where - query current robot position",
+      "example": "00 WH"
+    },
+    "gp": {
+      "syntax": "<channel> GP <pressure>",
+      "description": "Set gripper pressure (1-100% of maximum pressure)",
+      "example": "40 GP 75"
+    },
+    "go": {
+      "syntax": "<channel> GO",
+      "description": "Gripper open - open the gripper",
+      "example": "40 GO"
+    },
+    "gc": {
+      "syntax": "<channel> GC",
+      "description": "Gripper close - close the gripper",
+      "example": "40 GC"
+    },
+    "io": {
+      "syntax": "<channel> IO <port> <state>",
+      "description": "Set digital I/O port state (1=ON, 0=OFF)",
+      "example": "30 IO 1 1"
+    },
+    "ir": {
+      "syntax": "<channel> IR <port>",
+      "description": "Read digital input port state",
+      "example": "30 IR 1"
+    },
+    "dw": {
+      "syntax": "<channel> DW <delay_ms>",
+      "description": "Delay/wait for specified milliseconds",
+      "example": "00 DW 1000"
+    },
+    "ts": {
+      "syntax": "<channel> TS",
+      "description": "Enter teach mode for manual positioning",
+      "example": "00 TS"
+    },
+    "te": {
+      "syntax": "<channel> TE",
+      "description": "Exit teach mode",
+      "example": "00 TE"
+    },
+    "cl": {
+      "syntax": "<channel> CL <interpolation>",
+      "description": "Set coordinate system (0=joint, 1=linear, 2=circular)",
+      "example": "20 CL 1"
+    },
+    "ve": {
+      "syntax": "<channel> VE",
+      "description": "Query controller firmware version",
+      "example": "00 VE"
+    },
+    "st_query": {
+      "syntax": "<channel> ST?",
+      "description": "Query system status and error codes",
+      "example": "00 ST?"
+    },
+    "en": {
+      "syntax": "<channel> EN",
+      "description": "Enable servo motors",
+      "example": "00 EN"
+    },
+    "di": {
+      "syntax": "<channel> DI",
+      "description": "Disable servo motors",
+      "example": "00 DI"
+    }
+  }
+}
