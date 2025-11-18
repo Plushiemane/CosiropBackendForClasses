@@ -136,11 +136,11 @@ export default function RobotModel() {
         maxHeight: '380px',
         overflowY: 'auto'
       }}>
-        <h3 style={{ margin: '0 0 15px 0' }}>Joint Controls</h3>
+        <h3 style={{ margin: '0 0 20px 0', fontSize: '20px' }}>Joint Controls</h3>
         
         {jointControls.map((joint) => (
-          <div key={joint.name} style={{ marginBottom: '12px' }}>
-            <label style={{ display: 'block', fontSize: '12px', marginBottom: '4px' }}>
+          <div key={joint.name} style={{ marginBottom: '16px' }}>
+            <label style={{ display: 'block', fontSize: '16px', marginBottom: '6px', fontWeight: '600' }}>
               {joint.name.charAt(0).toUpperCase() + joint.name.slice(1)} ({joint.boneName}, {joint.axis.toUpperCase()}-axis): {(rotations[joint.name] * 180 / Math.PI).toFixed(1)}°
             </label>
             <input
@@ -158,13 +158,15 @@ export default function RobotModel() {
         <button 
           onClick={resetRotations}
           style={{
-            marginTop: '10px',
-            padding: '8px 16px',
+            marginTop: '15px',
+            padding: '12px 20px',
             backgroundColor: '#4CAF50',
             color: 'white',
             border: 'none',
-            borderRadius: '4px',
-            cursor: 'pointer'
+            borderRadius: '6px',
+            cursor: 'pointer',
+            fontSize: '16px',
+            fontWeight: '600'
           }}
         >
           Reset All

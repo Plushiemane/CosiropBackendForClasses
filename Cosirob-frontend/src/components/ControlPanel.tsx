@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import commandsData from '../lib/cosirobcommands.json';
 import { addLog } from '../lib/commLogger';
+import "./EmergencyStop.css";
 
 const ControlPanel: React.FC = () => {
   // Local tracked Cartesian position (used for building absolute mv commands)
@@ -8,10 +9,15 @@ const ControlPanel: React.FC = () => {
   const [stepSize, setStepSize] = useState<number>(5);
   const [status, setStatus] = useState<string>('');
 
-  const channel = '00';
+  const [channel, setChannel] = useState<string>('00');
   const [readSlot, setReadSlot] = useState<number>(1);
   const [autoReadAfterMove, setAutoReadAfterMove] = useState<boolean>(true);
 
+  const EmergencyStop = () => {
+    const estopCmd = `${channel} ST`;
+    setStatus('EMERGENCY STOP SENT!');
+    sendCommand(estopCmd);
+  };
   const sendCommand = async (cmd: string) => {
     setStatus(`TX: ${cmd}`);
     addLog('tx', cmd);
@@ -108,55 +114,74 @@ const ControlPanel: React.FC = () => {
 
   return (
     <section className="panel control-panel">
+      <button className='emergency-stop-button' onClick={EmergencyStop}>
+        Emergency Stop
+      </button>
       <div className="panel-header">Manual Controls</div>
-      <div className="panel-body control-grid">
-        <div className="joystick">
-          <div className="joystick-pad">Joystick</div>
+      <div className="panel-body">
+        <div style={{ marginBottom: '16px', display: 'flex', alignItems: 'center', gap: 12 }}>
+          <label style={{ fontSize: '16px', fontWeight: '600' }}>Channel:</label>
+          <select 
+            value={channel} 
+            onChange={(e) => setChannel(e.target.value)}
+            style={{ fontSize: '16px', padding: '8px', borderRadius: '4px' }}
+          >
+            <option value="00">00 - System</option>
+            <option value="10">10 - Motion</option>
+            <option value="20">20 - Motion</option>
+            <option value="30">30 - I/O</option>
+            <option value="40">40 - Gripper</option>
+            <option value="50">50 - Position</option>
+          </select>
         </div>
+
         <div className="quick-actions">
-          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-            <button onClick={() => doStep('x', stepSize)}>Step +X</button>
-            <button onClick={() => doStep('x', -stepSize)}>Step -X</button>
-            <button onClick={() => doStep('y', stepSize)}>Step +Y</button>
-            <button onClick={() => doStep('y', -stepSize)}>Step -Y</button>
-            <button onClick={() => doStep('z', stepSize)}>Step +Z</button>
-            <button onClick={() => doStep('z', -stepSize)}>Step -Z</button>
-            <button onClick={goHome}>Home</button>
+          <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', marginBottom: '16px' }}>
+            <button onClick={() => doStep('x', stepSize)} style={{ fontSize: '16px', padding: '10px 16px' }}>Step +X</button>
+            <button onClick={() => doStep('x', -stepSize)} style={{ fontSize: '16px', padding: '10px 16px' }}>Step -X</button>
+            <button onClick={() => doStep('y', stepSize)} style={{ fontSize: '16px', padding: '10px 16px' }}>Step +Y</button>
+            <button onClick={() => doStep('y', -stepSize)} style={{ fontSize: '16px', padding: '10px 16px' }}>Step -Y</button>
+            <button onClick={() => doStep('z', stepSize)} style={{ fontSize: '16px', padding: '10px 16px' }}>Step +Z</button>
+            <button onClick={() => doStep('z', -stepSize)} style={{ fontSize: '16px', padding: '10px 16px' }}>Step -Z</button>
+            <button onClick={goHome} style={{ fontSize: '16px', padding: '10px 16px' }}>Home</button>
           </div>
         </div>
 
         <div className="speed-slab">
-          <label>Step size (mm)</label>
+          <label style={{ fontSize: '16px', fontWeight: '600' }}>Step size (mm)</label>
           <input
             type="number"
             min={1}
             max={1000}
             value={stepSize}
             onChange={(e) => setStepSize(Number(e.target.value) || 1)}
+            style={{ fontSize: '16px', padding: '8px' }}
           />
-          <div style={{ marginTop: 8 }}>
-            <label>Speed</label>
-            <input type="range" min={1} max={100} defaultValue={50} />
+          <div style={{ marginTop: 12 }}>
+            <label style={{ fontSize: '16px', fontWeight: '600' }}>Speed</label>
+            <input type="range" min={1} max={100} defaultValue={50} style={{ height: '8px' }} />
           </div>
         </div>
 
-        <div style={{ marginTop: 12, gridColumn: '1 / -1' }}>
-          <div style={{ fontSize: '0.9rem', color: 'var(--muted)' }}>
+        <div style={{ marginTop: 16 }}>
+          <div style={{ fontSize: '18px', color: 'var(--muted)', fontWeight: '600', marginBottom: '12px' }}>
             Position: X={pos.x} Y={pos.y} Z={pos.z}
           </div>
-          <div style={{ marginTop: 8, display: 'flex', alignItems: 'center', gap: 8 }}>
-            <label style={{ marginRight: 8 }}>Read slot:</label>
-            <input type="number" min={0} value={readSlot} onChange={(e) => setReadSlot(Number(e.target.value) || 0)} style={{ width: 80 }} />
-            <button onClick={() => readPosition(readSlot)} style={{ marginLeft: 8 }}>Read</button>
+          <div style={{ marginTop: 12, display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
+            <label style={{ fontSize: '16px', fontWeight: '600' }}>Read slot:</label>
+            <input type="number" min={0} value={readSlot} onChange={(e) => setReadSlot(Number(e.target.value) || 0)} style={{ width: 100, fontSize: '16px', padding: '8px' }} />
+            <button onClick={() => readPosition(readSlot)} style={{ fontSize: '16px', padding: '8px 16px' }}>Read</button>
 
-            <label style={{ marginLeft: 16, display: 'flex', alignItems: 'center', gap: 6 }}>
-              <input type="checkbox" checked={autoReadAfterMove} onChange={(e) => setAutoReadAfterMove(e.target.checked)} />
-              <span style={{ fontSize: '0.85rem' }}>Auto-read after move</span>
+            <label style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+              <input type="checkbox" checked={autoReadAfterMove} onChange={(e) => setAutoReadAfterMove(e.target.checked)} style={{ transform: 'scale(1.2)' }} />
+              <span style={{ fontSize: '16px' }}>Auto-read after move</span>
             </label>
           </div>
-          <div style={{ fontSize: '0.85rem', marginTop: 6 }}>{status}</div>
+          <div style={{ fontSize: '16px', marginTop: 12, fontWeight: '500' }}>{status}</div>
         </div>
       </div>
+      
+      
     </section>
   );
 };
